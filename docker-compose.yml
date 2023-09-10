@@ -1,0 +1,65 @@
+version: "3"
+services:
+  # laravel:
+  #   tty: true
+  #   container_name: laravel
+  #   restart: always
+  #   build:
+  #     context: .
+  #     dockerfile: /home/asa/Project/service/Laravel/Dockerfile
+  #   ports:
+  #     - "8000:8000"
+  #   volumes:
+  #     - ./Laravel/:/var/www/html
+
+  golang: 
+    tty: true
+    container_name: golang
+    restart: always
+    build:
+      context: .
+      dockerfile: /home/asa/Project/service/Go/Dockerfile
+    ports:
+      - "9000:9000"
+    volumes:
+      - ./Go/:/var/www/html
+
+  db:
+    image: mysql:latest
+    container_name: db
+    restart: always
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: Go
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    volumes:
+    - ./Go/DB:/var/lib/mysql
+
+    # db: //for laravel
+    # image: mysql:latest
+    # container_name: db
+    # restart: always
+    # ports:
+    #   - 3306:3306
+    # environment:
+    #   MYSQL_ROOT_PASSWORD: root
+    #   MYSQL_DATABASE: laravel
+    #   MYSQL_USER: user
+    #   MYSQL_PASSWORD: password
+    # volumes:
+    # - ./Laravel/DB:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: phpmyadmin
+    restart: always
+    ports:
+      - 8080:80
+    environment:
+      PMA_HOST: db
+      PMA_USER: root
+      PMA_PASSWORD: root
+      PMA_ARBITRARY: 1
