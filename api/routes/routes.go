@@ -3,7 +3,6 @@ package routes
 import (
 	"golang-api/api/handlers"
 	"golang-api/config"
-	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
@@ -20,5 +19,5 @@ func StartServer() {
 	router.GET("/api/user/GetUser", handlers.GetUser)
 
 	// Mulai server HTTP
-	http.ListenAndServe(":9000", nil)
+	router.Run(":9000")
 }
